@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.nodeclipse.coffee-js-preview.feature_0.1.0.qualifier.jar" id="org.nodeclipse.coffee-js-preview.feature" version="0.1.0.qualifier">
+      <category name="Viewers"/>
+   </feature>
+   <category-def name="Viewers" label="Viewers"/>
+</site>

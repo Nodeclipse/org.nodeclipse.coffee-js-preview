@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="code.satyagraha.gfm.viewer.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="GFM Viewer"
+            class="code.satyagraha.gfm.viewer.preferences.PreferencePage"
+            id="code.satyagraha.gfm.viewer.preferences.PreferencePage">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:code.satyagraha.gfm.viewer.views.GfmView">
+         <command
+               commandId="GFM Viewer plugin.Reload"
+               icon="icons/reload.gif"
+               style="push">
+         </command>
+         <command
+               commandId="GFM Viewer plugin.Linked"
+               icon="icons/linked.gif"
+               style="toggle">
+         </command>
+         <command
+               commandId="GFM Viewer plugin.GoForward"
+               icon="icons/nav_forward.gif"
+               style="push">
+         </command>
+         <command
+               commandId="GFM Viewer plugin.GoBackward"
+               icon="icons/nav_backward.gif"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="GFM Viewer plugin.ShowMarkdownFile"
+               label="Show in GFM view"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <and>
+                  <with
+                        variable="activeMenuSelection">
+                     <count
+                           value="1">
+                     </count>
+                  </with>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IFile">
+                        <test
+                              property="org.eclipse.core.resources.extension"
+                              value="md">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </and>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="code.satyagraha.gfm.commands.Reload"
+            id="GFM Viewer plugin.Reload"
+            name="Reload">
+      </command>
+      <command
+            defaultHandler="code.satyagraha.gfm.commands.Linked"
+            id="GFM Viewer plugin.Linked"
+            name="Linked">
+         <state
+               class="org.eclipse.ui.handlers.RegistryToggleState:true"
+               id="org.eclipse.ui.commands.toggleState">
+         </state>
+      </command>
+      <command
+            defaultHandler="code.satyagraha.gfm.commands.GoForward"
+            id="GFM Viewer plugin.GoForward"
+            name="Go Forward">
+      </command>
+      <command
+            defaultHandler="code.satyagraha.gfm.commands.GoBackward"
+            id="GFM Viewer plugin.GoBackward"
+            name="Go Backward">
+      </command>
+      <command
+            defaultHandler="code.satyagraha.gfm.commands.ShowMarkdownFile"
+            id="GFM Viewer plugin.ShowMarkdownFile"
+            name="Show Markdown File">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="GFM Support"
+            id="code.satyagraha.gfm.viewer">
+      </category>
+      <view
+            category="code.satyagraha.gfm.viewer"
+            class="code.satyagraha.gfm.viewer.views.GfmView"
+            icon="icons/notepad.gif"
+            id="code.satyagraha.gfm.viewer.views.GfmView"
+            name="GFM View">
+      </view>
+   </extension>
+
+</plugin>

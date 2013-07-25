@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CoffeeScript to JavaScript Preview
+Bundle-SymbolicName: org.nodeclipse.coffee-js-preview.plugin;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Activator: org.nodeclipse.coffee-js-preview.plugin.Activator
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.text,
+ org.eclipse.ui,
+ org.eclipse.ui.ide
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Nodeclipse organization

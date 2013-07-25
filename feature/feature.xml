@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.nodeclipse.coffee-js-preview.feature"
+      label="CoffeeScript to JavaScript Preview"
+      version="0.1.0.qualifier"
+      provider-name="Nodeclipse organization">
+
+   <license url="">
+      Eclipse Public License 1.0
+   </license>
+
+   <plugin
+         id="org.nodeclipse.coffee-js-preview.plugin"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
