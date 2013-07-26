@@ -1,0 +1,8 @@
+.settings
+.classpath
+*.class
+*.jar
+target
+classes
+$*
+.*.md.html
