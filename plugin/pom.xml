@@ -8,6 +8,7 @@
 		<version>0.1.0-SNAPSHOT</version>
 		<relativePath>../parent</relativePath>
 	</parent>
+	<name>CoffeeScript to JavaScript Preview</name>
 
 	<artifactId>org.nodeclipse.coffee-js-preview.plugin</artifactId>
 	<packaging>eclipse-plugin</packaging>
