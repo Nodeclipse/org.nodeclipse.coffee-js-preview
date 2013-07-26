@@ -17,14 +17,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.nodeclipse.coffeejspreview.plugin.Activator;
 
-import code.satyagraha.gfm.commands.Linked;
-import code.satyagraha.gfm.support.api.FileNature;
-import code.satyagraha.gfm.support.api.GfmConfig;
-import code.satyagraha.gfm.support.api.GfmTransformer;
-import code.satyagraha.gfm.support.impl.GfmTransformerDefault;
-import code.satyagraha.gfm.viewer.plugin.Activator;
-import code.satyagraha.gfm.viewer.preferences.PreferenceAdapter;
+//import code.satyagraha.gfm.commands.Linked;
+//import code.satyagraha.gfm.support.api.FileNature;
+//import code.satyagraha.gfm.support.api.GfmConfig;
+//import code.satyagraha.gfm.support.api.GfmTransformer;
+//import code.satyagraha.gfm.support.impl.GfmTransformerDefault;
+//import code.satyagraha.gfm.viewer.plugin.Activator;
+//import code.satyagraha.gfm.viewer.preferences.PreferenceAdapter;
 
 public class CoffeeJSView extends ViewPart{
 
