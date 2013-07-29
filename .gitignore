@@ -6,4 +6,4 @@ target
 classes
 $*
 .*.md.html
-/.project
+.project

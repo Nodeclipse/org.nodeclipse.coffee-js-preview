@@ -17,6 +17,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.nodeclipse.coffeejspreview.api.CoffeeJSConfig;
+import org.nodeclipse.coffeejspreview.api.FileNature;
+import org.nodeclipse.coffeejspreview.impl.TransformerDefault;
 import org.nodeclipse.coffeejspreview.plugin.Activator;
 
 //import code.satyagraha.gfm.commands.Linked;
@@ -35,10 +38,10 @@ public class CoffeeJSView extends ViewPart{
     public static final String ID = CoffeeJSView.class.getCanonicalName();
 
     private CoffeeJSBrowser coffeeJSBrowser;
-//
-//    private GfmTransformer gfmTransformer;
-//    
-//    private GfmConfig gfmConfig;
+
+    private TransformerDefault transformer;
+    
+    private CoffeeJSConfig config;
 //
 //    private EditorTracker editorTracker;
     
@@ -62,21 +65,21 @@ public class CoffeeJSView extends ViewPart{
             }
         };
 
-//        gfmTransformer = new GfmTransformerDefault();
-//        gfmConfig = new PreferenceAdapter();
-//        Logger logger = Logger.getLogger(CoffeeJSView.class.getCanonicalName());
-//        logger.setLevel(Level.WARNING);
-//        gfmTransformer.setConfig(gfmConfig, logger);
-//
-//        FileNature markdownFileNature = new FileNature() {
-//            
-//            @Override
-//            public boolean isTrackableFile(IFile iFile) {
-//                return iFile != null && gfmTransformer.isMarkdownFile(iFile.getLocation().toFile());
-//            }
-//        };
+        transformer = new TransformerDefault();
+        // gfmConfig = new PreferenceAdapter();
+        Logger logger = Logger.getLogger(ID);
+        logger.setLevel(Level.WARNING);
+        transformer.setConfig(config, logger);
+
+        FileNature coffeeFileNature = new FileNature() {
+            
+            @Override
+            public boolean isTrackableFile(IFile iFile) {
+                return iFile != null && transformer.isCoffeeFile(iFile.getLocation().toFile());
+            }
+        };
 //        
-//        editorTracker = new EditorTracker(getSite().getWorkbenchWindow(), this, markdownFileNature);
+//        editorTracker = new EditorTracker(getSite().getWorkbenchWindow(), this, coffeeFileNature);
 //        editorTracker.setNotificationsEnabled(Linked.isLinked());
     }
 
@@ -96,65 +99,65 @@ public class CoffeeJSView extends ViewPart{
         super.dispose();
     }
 
-//    @Override
-//    public void showIFile(IFile iFile) {
-//        if (iFile != null) {
-//            Activator.debug(iFile.getFullPath().toString());
-//            showFile(iFile.getRawLocation().toFile());
-//        } else {
-//            Activator.debug("(null)");
-//        }
-//    }
-//
-//    protected void showFile(File mdFile) {
-//        showBusy(true);
-//        final File htFile = createHtmlFile(mdFile);
-//        scheduleTransformation(mdFile, htFile, new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                coffeeJSBrowser.showHtmlFile(htFile);
-//            }
-//        });
-//    }
-//
-//    private File createHtmlFile(File mdFile) {
-//        String htDir = gfmConfig.useTempDir() ? System.getProperty("java.io.tmpdir") : mdFile.getParent();
-//        String htName = String.format(".%s.html", mdFile.getName());
-//        return new File(htDir, htName);
-//    }
-//
-//    private void scheduleTransformation(final File mdFile, final File htFile, final Runnable onDone) {
-//        final String jobName = "Transforming: " + mdFile.getName();
-//        Job job = new Job(jobName) {
-//
-//            @Override
-//            protected IStatus run(IProgressMonitor monitor) {
-//                IStatus status = Status.OK_STATUS;
-//                try {
-//                    gfmTransformer.transformMarkdownFile(mdFile, htFile);
-//                } catch (IOException e) {
-//                    status = new Status(Status.ERROR, Activator.PLUGIN_ID, jobName, e);
-//                }
-//                return status;
-//            }
-//        };
-//        job.setUser(false);
-//        job.setSystem(false);
-//        job.setPriority(Job.SHORT);
-//        job.addJobChangeListener(new JobChangeAdapter() {
-//            
-//            @Override
-//            public void done(IJobChangeEvent event) {
-//                if (event.getResult().isOK()) {
-//                    Display.getDefault().asyncExec(onDone);
-//                } else {
-//                    // normal reporting has occurred
-//                }
-//            }
-//        });
-//        job.schedule();
-//    }
+    //@Override
+    public void showIFile(IFile iFile) {
+        if (iFile != null) {
+            Activator.debug(iFile.getFullPath().toString());
+            showFile(iFile.getRawLocation().toFile());
+        } else {
+            Activator.debug("(null)");
+        }
+    }
+
+    protected void showFile(File coffeeFile) {
+        showBusy(true);
+        final File htFile = createHtmlFile(coffeeFile);
+        scheduleTransformation(coffeeFile, htFile, new Runnable() {
+
+            @Override
+            public void run() {
+                coffeeJSBrowser.showHtmlFile(htFile);
+            }
+        });
+    }
+
+    private File createHtmlFile(File mdFile) {
+        String htDir = config.useTempDir() ? System.getProperty("java.io.tmpdir") : mdFile.getParent();
+        String htName = String.format(".%s.html", mdFile.getName());
+        return new File(htDir, htName);
+    }
+
+    private void scheduleTransformation(final File coffeeFile, final File htFile, final Runnable onDone) {
+        final String jobName = "Transforming: " + coffeeFile.getName();
+        Job job = new Job(jobName) {
+
+            @Override
+            protected IStatus run(IProgressMonitor monitor) {
+                IStatus status = Status.OK_STATUS;
+                try {
+                    transformer.transformCoffeeFile(coffeeFile, htFile);
+                } catch (IOException e) {
+                    status = new Status(Status.ERROR, Activator.PLUGIN_ID, jobName, e);
+                }
+                return status;
+            }
+        };
+        job.setUser(false);
+        job.setSystem(false);
+        job.setPriority(Job.SHORT);
+        job.addJobChangeListener(new JobChangeAdapter() {
+            
+            @Override
+            public void done(IJobChangeEvent event) {
+                if (event.getResult().isOK()) {
+                    Display.getDefault().asyncExec(onDone);
+                } else {
+                    // normal reporting has occurred
+                }
+            }
+        });
+        job.schedule();
+    }
 //
 //    public void goForward() {
 //        Activator.debug("");
